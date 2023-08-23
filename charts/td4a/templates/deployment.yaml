@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "td4a.fullname" . }}-jinja
+  labels:
+  {{- include "td4a.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.jinja.replicas }}
+  selector:
+    matchLabels:
+      app: td4a-jinja
+    {{- include "td4a.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: td4a-jinja
+      {{- include "td4a.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: LOG_LEVEL
+          value: {{ quote .Values.jinja.td4AJinja.env.logLevel }}
+        - name: TD4A_UI_MODE
+          value: {{ quote .Values.jinja.td4AJinja.env.td4AUiMode }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.jinja.td4AJinja.image.repository }}:{{ .Values.jinja.td4AJinja.image.tag
+          | default .Chart.AppVersion }}
+        name: td4a-jinja
+        ports:
+        - containerPort: 5000
+          name: jinja
+        resources: {{- toYaml .Values.jinja.td4AJinja.resources | nindent 10 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "td4a.fullname" . }}-schema
+  labels:
+  {{- include "td4a.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.schema.replicas }}
+  selector:
+    matchLabels:
+      app: td4a-schema
+    {{- include "td4a.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: td4a-schema
+      {{- include "td4a.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: LOG_LEVEL
+          value: {{ quote .Values.schema.td4ASchema.env.logLevel }}
+        - name: TD4A_UI_MODE
+          value: {{ quote .Values.schema.td4ASchema.env.td4AUiMode }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.schema.td4ASchema.image.repository }}:{{ .Values.schema.td4ASchema.image.tag
+          | default .Chart.AppVersion }}
+        name: td4a-schema
+        ports:
+        - containerPort: 5000
+          name: schema
+        resources: {{- toYaml .Values.schema.td4ASchema.resources | nindent 10 }}

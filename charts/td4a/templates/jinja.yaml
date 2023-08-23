@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "td4a.fullname" . }}-jinja
+  labels:
+  {{- include "td4a.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.jinja.type }}
+  selector:
+    app: td4a-jinja
+  {{- include "td4a.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.jinja.ports | toYaml | nindent 2 -}}

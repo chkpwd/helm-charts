@@ -1,0 +1,41 @@
+jinja:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  replicas: 1
+  td4AJinja:
+    env:
+      logLevel: INFO
+      td4AUiMode: jinja
+    image:
+      repository: ghcr.io/tigattack/td4a
+      tag: main
+    resources:
+      limits:
+        memory: 150Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+  type: ClusterIP
+kubernetesClusterDomain: cluster.local
+schema:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  replicas: 1
+  td4ASchema:
+    env:
+      logLevel: INFO
+      td4AUiMode: schema
+    image:
+      repository: ghcr.io/tigattack/td4a
+      tag: main
+    resources:
+      limits:
+        memory: 100Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+  type: ClusterIP

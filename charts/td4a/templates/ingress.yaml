@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "td4a.fullname" . }}-ingress
+  labels:
+  {{- include "td4a.labels" . | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: int-ingress
+  rules:
+  - host: td4a.local.chkpwd.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: '{{ include "td4a.fullname" . }}-jinja'
+            port:
+              number: 5000
+        path: /jinja(/|$)(.*)
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: '{{ include "td4a.fullname" . }}-schema'
+            port:
+              number: 5000
+        path: /schema(/|$)(.*)
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - td4a.local.chkpwd.com
+    secretName: td4a
