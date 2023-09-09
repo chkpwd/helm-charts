@@ -1,0 +1,39 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/behnh/spotify-dashboard
+  pullPolicy: IfNotPresent
+  tag: "bleeding-edge"
+
+nameOverride: ""
+fullnameOverride: "spotify-dashboard"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+serviceAccount:
+  create: false
+
+env:
+  SPOTIFY_CLIENT_ID: ""
+  SPOTIFY_CLIENT_SECRET: ""
+  JWT_TOKEN_SECRET: ""
+  DATABASE_URL: ""
+  PUBLIC_URL: ""
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: ""
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources: {}

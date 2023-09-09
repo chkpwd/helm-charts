@@ -1,0 +1,9 @@
+apiVersion: v2
+name: spotify-dashboard
+description: A Helm Chart for Spotify Dashboard App - https://github.com/BehnH/spotify-dashboard
+
+type: application
+
+version: 0.1.0
+
+appVersion: "bleeding-edge"
